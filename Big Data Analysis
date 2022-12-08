@@ -1,0 +1,36 @@
+library(ggplot2)
+#First import text file into R Studio
+mydata <- fat
+colnames(mydata)
+name(mydata)
+#Rename all columns according to variable descriptions
+fix(mydata)
+View(mydata)
+
+summary(mydata)
+cor(mydata)
+#Creating a scatter plot matrix for all of the data
+scatterplotMatrix(mydata, smooth=FALSE,
+                  main="Scatter Plot Matrix")
+#Creating a singular scatter plot to create a visual for the relationship between Age and Body Fat
+plot(mydata$Age, mydata$Body.fat, main = "Age Vs. Body Fat",
+     xlab = "Age", ylab = "Body Fat",
+     pch = 19, frame = FALSE)
+#Creating a singular scatter plot to create a visual for the relationship between Weight and Body Fat
+plot(mydata$Weight, mydata$Body.fat, main = "Weight Vs. Body Fat",
+     xlab = "Weight", ylab = "Body Fat",
+     pch = 19, frame = FALSE)
+
+cor(mydata[c("Chest","Body.fat")],use="complete")
+#Regression data to see which explanatory variables were statistically significant
+fit <- lm(Body.fat ~ Neck + Chest + Abdomen + Hip + Thigh + Knee + Ankle + Extended.biceps + Forearm + Wrist, data=mydata)
+res = resid(fit)
+plot(fit)
+plot(fitted(fit), res)
+summary(fit)
+#Create a histogram to visualize the frequency of subjects' ages
+h <- hist(mydata$Age,ylim=c(0,80))
+text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5))
+#Create a histogram to visualize the frequency of body fat percentages
+h <- hist(mydata$Body.fat,ylim=c(0,80))
+text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5))
